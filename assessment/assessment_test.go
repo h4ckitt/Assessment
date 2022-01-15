@@ -11,6 +11,18 @@ func TestAssessment_testValidity(t *testing.T) {
 		t.Errorf("Expected: %v, Got: %v\n", true, false)
 	}
 
+	randomString = "1- test-2-yes"
+
+	if testValidity(randomString) {
+		t.Errorf("Expected: %v, Got: %v\n", false, true)
+	}
+
+	randomString = " 1-please-2-hire-3-me "
+
+	if !testValidity(randomString) {
+		t.Errorf("Expected: %v, Got: %v\n", true, false)
+	}
+
 	randomString = "1-1-ab-2-bc"
 
 	if testValidity(randomString) {
