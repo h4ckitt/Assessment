@@ -9,7 +9,7 @@ import (
 
 var (
 	allNumReg  = regexp.MustCompile("[0-9]+")
-	allTextReg = regexp.MustCompile("[a-zA-Z+")
+	allTextReg = regexp.MustCompile("[a-zA-Z+]")
 )
 
 func testValidity(text string) bool {
@@ -51,7 +51,23 @@ func averageNumber(text string) float64 {
 	return float64(int(average*100)) / 100
 }
 
+func wholeStory(text string) string {
+	var result []string
+
+	split := strings.Split(text, "-")
+
+	for _, elem := range split {
+		if allTextReg.MatchString(elem) {
+			result = append(result, elem)
+		}
+	}
+
+	return strings.Join(result, " ")
+}
+
 func main() {
 	text := "23-ab-48-caba-56-haha-2"
 	fmt.Println(testValidity(text))
+	fmt.Println(averageNumber(text))
+	fmt.Println(wholeStory(text))
 }
