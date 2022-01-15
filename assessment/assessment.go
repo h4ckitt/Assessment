@@ -1,6 +1,7 @@
 package assessment
 
 import (
+	"fmt"
 	"math"
 	"math/rand"
 	"regexp"
@@ -10,8 +11,8 @@ import (
 )
 
 var (
-	allNumReg  = regexp.MustCompile("[0-9]+")
-	allTextReg = regexp.MustCompile("[a-zA-Z+]")
+	allNumReg  = regexp.MustCompile("^[0-9]+$")
+	allTextReg = regexp.MustCompile("^[a-zA-Z]+$")
 )
 
 /* testValidity:
@@ -51,9 +52,9 @@ func testValidity(text string) bool {
 		return false
 	}
 
-	// Makes Sure That The String Ends With A Text e.g 1-hello-2-world
-	// Returns False On 1-hello-2
-	if allNumReg.MatchString(split[len(split)-1]) {
+	// Makes Sure That The String Begins With A Number And Ends With A Text e.g 1-hello-2-world
+	// Returns False On 1-hello-2 Or 1-hello-2- Or hello-1-world-2-yes
+	if !allTextReg.MatchString(split[len(split)-1]) || !allNumReg.MatchString(split[0]) {
 		return false
 	}
 
@@ -217,16 +218,32 @@ func generate(valid bool) string {
 			}
 			result.WriteString("-" + randString(rand.Intn(5-1)+1, true) + "-")
 		}
-		return strings.TrimLeft(strings.TrimRight(result.String(), "-"), "-")
+
+		// Trim Leading And Trailing "-" Characters
+		returnVal := strings.TrimLeft(strings.TrimRight(result.String(), "-"), "-")
+
+		// If Resulting String Ends With A Number, Append A String To It Before Returning
+		if !testValidity(returnVal) {
+			returnVal = fmt.Sprintf("%s-%s", returnVal, randString(rand.Intn(5-1)+1, true))
+		}
+		return returnVal
+
 	}
 
 	for i := 0; i <= length; i++ {
 		result.WriteString(randString(rand.Intn(5-1)+1, false))
+
+		// If By Any Slim Chance A Valid String Is Written
+		// Append Another String To Render The Result Invalid
+		if testValidity(result.String()) {
+			result.WriteString(randString(rand.Intn(5-1)+1, false))
+		}
 	}
 
 	return result.String()
 }
 
+// Helper Function For Generation Of Random Strings
 func randString(length int, valid bool) string {
 	var letterBytes string
 	if valid {
