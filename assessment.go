@@ -20,9 +20,6 @@ func testValidity(text string) bool {
 		return false
 	}
 
-	//	allTextReg := regexp.MustCompile("[a-zA-Z]+")
-	//	allNumReg := regexp.MustCompile("[0-9]+")
-
 	for _, elem := range split {
 		if !allNumReg.MatchString(elem) && !allTextReg.MatchString(elem) {
 			return false
