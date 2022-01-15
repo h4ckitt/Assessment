@@ -3,9 +3,11 @@ package main
 import (
 	"fmt"
 	"math"
+	"math/rand"
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var (
@@ -125,10 +127,58 @@ func storyStats(text string) (string, string, float64, []string) {
 
 }
 
+/* generate:
+Difficulty: Medium
+Estimated Time Of Completion: 20 Minutes
+Used Time Of Completion: 50 Minutes
+*/
+
+func generate(valid bool) string {
+	var result strings.Builder
+	rand.Seed(time.Now().UnixNano())
+	length := rand.Intn(12-2) + 2
+	if valid {
+		for i := 0; i <= length; i++ {
+			if i%2 == 0 {
+				num := rand.Intn(10000-1) + 1
+				result.WriteString(strconv.Itoa(num))
+				continue
+			}
+			result.WriteString("-" + randString(rand.Intn(5-1)+1, true) + "-")
+		}
+		return strings.TrimLeft(strings.TrimRight(result.String(), "-"), "-")
+	}
+
+	for i := 0; i <= length; i++ {
+		result.WriteString(randString(rand.Intn(5-1)+1, false))
+	}
+
+	return result.String()
+}
+
+func randString(length int, valid bool) string {
+	var letterBytes string
+	if valid {
+		letterBytes = "abcdefghijklmnopqrstuvwxyz" //ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	} else {
+		letterBytes = "abcdefghijklmnopqrstuvwxyz1234567890-"
+	}
+
+	b := make([]byte, length)
+
+	for i := range b {
+		b[i] = letterBytes[rand.Int63()%int64(len(letterBytes))]
+	}
+
+	return string(b)
+}
+
 func main() {
-	text := "23-ab-48-caba-56-haha-2"
+	text := "1466-boi-3784-guw-7113-rqgw-926-bht-8681-e-7143"
 	fmt.Println(testValidity(text))
 	fmt.Println(averageNumber(text))
 	fmt.Println(wholeStory(text))
 	fmt.Println(storyStats(text))
+	fmt.Println(generate(true))
+	fmt.Println(generate(false))
 }
