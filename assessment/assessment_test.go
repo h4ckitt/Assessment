@@ -11,7 +11,43 @@ func TestAssessment_testValidity(t *testing.T) {
 		t.Errorf("Expected: %v, Got: %v\n", true, false)
 	}
 
-	randomString = "1-1-ab-2-bc-3"
+	randomString = "1-1-ab-2-bc"
+
+	if testValidity(randomString) {
+		t.Errorf("Expected: %v, Got: %v\n", false, true)
+	}
+
+	randomString = "1--ab-2-bc-3-c"
+
+	if testValidity(randomString) {
+		t.Errorf("Expected: %v, Got: %v\n", false, true)
+	}
+
+	randomString = "22-hello-24-gophers-25"
+
+	if testValidity(randomString) {
+		t.Errorf("Expected: %v, Got: %v\n", false, true)
+	}
+
+	randomString = "hello-2-my-3-fellow-4-gophers"
+
+	if testValidity(randomString) {
+		t.Errorf("Expected: %v, Got: %v\n", false, true)
+	}
+
+	randomString = "-hi-3-there"
+
+	if testValidity(randomString) {
+		t.Errorf("Expected: %v, Got: %v\n", false, true)
+	}
+
+	randomString = "1-hello-2-testing-"
+
+	if testValidity(randomString) {
+		t.Errorf("Expected: %v, Got: %v\n", false, true)
+	}
+
+	randomString = "lkhgmr2eg6-xhacqdwh1cf-mkilq9op0kj7193h9qx2cj"
 
 	if testValidity(randomString) {
 		t.Errorf("Expected: %v, Got: %v\n", false, true)
