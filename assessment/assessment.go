@@ -29,6 +29,7 @@ var (
   	Used Time Of Completion: 10 Minutes
 */
 func testValidity(text string) bool {
+	text = strings.TrimSpace(text)
 	var control byte = 0
 
 	// Makes Sure That No Two Dashes Follow Each Other i.e 1--ab-2-cd
@@ -86,6 +87,7 @@ Used Time Of Completion: 10 Minutes
 */
 
 func averageNumber(text string) float64 {
+	text = strings.TrimSpace(text)
 	split := strings.Split(text, "-")
 
 	var (
@@ -118,6 +120,7 @@ Used Time Of Completion: 8 Minutes
 */
 
 func wholeStory(text string) string {
+	text = strings.TrimSpace(text)
 	var result []string
 
 	split := strings.Split(text, "-")
@@ -151,6 +154,7 @@ Used Time Of Completion: 20 Minutes
 */
 
 func storyStats(text string) (string, string, float64, []string) {
+	text = strings.TrimSpace(text)
 	split := strings.Split(text, "-")
 	var (
 		words           []string
