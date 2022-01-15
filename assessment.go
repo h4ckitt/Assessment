@@ -3,12 +3,13 @@ package main
 import (
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
 var (
-	numReg  = regexp.MustCompile("[0-9-]+")
-	textReg = regexp.MustCompile("[a-zA-Z-]+")
+	allNumReg  = regexp.MustCompile("[0-9]+")
+	allTextReg = regexp.MustCompile("[a-zA-Z+")
 )
 
 func testValidity(text string) bool {
@@ -18,8 +19,8 @@ func testValidity(text string) bool {
 		return false
 	}
 
-	allTextReg := regexp.MustCompile("[a-zA-Z]+")
-	allNumReg := regexp.MustCompile("[0-9]+")
+	//	allTextReg := regexp.MustCompile("[a-zA-Z]+")
+	//	allNumReg := regexp.MustCompile("[0-9]+")
 
 	for _, elem := range split {
 		if !allNumReg.MatchString(elem) && !allTextReg.MatchString(elem) {
@@ -27,6 +28,27 @@ func testValidity(text string) bool {
 		}
 	}
 	return true
+}
+
+func averageNumber(text string) float64 {
+	split := strings.Split(text, "-")
+
+	var (
+		total    int
+		numCount int
+	)
+
+	for _, elem := range split {
+		if allNumReg.MatchString(elem) {
+			num, _ := strconv.Atoi(elem)
+			total += num
+			numCount++
+		}
+	}
+
+	average := float64(total) / float64(numCount)
+
+	return float64(int(average*100)) / 100
 }
 
 func main() {
