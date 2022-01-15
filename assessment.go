@@ -13,6 +13,10 @@ var (
 	allTextReg = regexp.MustCompile("[a-zA-Z+]")
 )
 
+/* testValidity:
+   Difficulty: Easy
+   Used Time Of Completion: 10 Minutes
+*/
 func testValidity(text string) bool {
 	split := strings.Split(text, "-")
 
@@ -27,6 +31,11 @@ func testValidity(text string) bool {
 	}
 	return true
 }
+
+/* averageumber:
+Difficulty: Easy
+Used Time Of Completion: 10 Minutes
+*/
 
 func averageNumber(text string) float64 {
 	split := strings.Split(text, "-")
@@ -49,6 +58,11 @@ func averageNumber(text string) float64 {
 	return float64(int(average*100)) / 100
 }
 
+/* wholeStory:
+Difficulty: Easy
+Used Time Of Completion: 8 Minutes
+*/
+
 func wholeStory(text string) string {
 	var result []string
 
@@ -62,6 +76,11 @@ func wholeStory(text string) string {
 
 	return strings.Join(result, " ")
 }
+
+/* storyStats:
+Difficulty: Easy
+Used Time Of Completion: 13 Minutes
+*/
 
 func storyStats(text string) (string, string, float64, []string) {
 	split := strings.Split(text, "-")
