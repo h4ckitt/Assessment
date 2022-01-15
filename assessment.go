@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"regexp"
 	"strconv"
 	"strings"
@@ -65,9 +66,53 @@ func wholeStory(text string) string {
 	return strings.Join(result, " ")
 }
 
+func storyStats(text string) (string, string, float64, []string) {
+	split := strings.Split(text, "-")
+	var (
+		words           []string
+		longestWord     string
+		shortestWord    string
+		resultList      []string
+		totalWordLength int
+	)
+
+	for _, elem := range split {
+		if allTextReg.MatchString(elem) {
+			words = append(words, elem)
+		}
+	}
+
+	shortestWord = words[0]
+
+	for _, elem := range words {
+		length := len(elem)
+
+		if length < len(shortestWord) {
+			shortestWord = elem
+		} else if length > len(longestWord) {
+			longestWord = elem
+		}
+
+		totalWordLength += length
+	}
+
+	average := float64(totalWordLength) / float64(len(words))
+	roundedAverage := int(math.Round(average))
+
+	for _, elem := range words {
+		if len(elem) == roundedAverage {
+			resultList = append(resultList, elem)
+		}
+	}
+
+	return shortestWord, longestWord, float64(int(average*100)) / 100, resultList
+
+}
+
 func main() {
 	text := "23-ab-48-caba-56-haha-2"
 	fmt.Println(testValidity(text))
 	fmt.Println(averageNumber(text))
 	fmt.Println(wholeStory(text))
+	fmt.Println(storyStats(text))
 }
